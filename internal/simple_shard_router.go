@@ -21,7 +21,7 @@ AllNodeLoop:
 			}
 		}
 
-		if node.service.IsHealthy() {
+		if node.IsHealthy() {
 			eligibleNodes = append(eligibleNodes, node)
 		}
 	}

@@ -75,7 +75,7 @@ func (c *Cluster) initializePrimaryShards() error {
 				return translateBackoffErr(err)
 			}
 
-			err = nodeToAllocate.service.AllocateShard(shard, map[string]string{})
+			err = nodeToAllocate.AllocateShard(shard, map[string]string{})
 
 			if err != nil {
 				return translateBackoffErr(err)
@@ -106,7 +106,7 @@ func (c *Cluster) initializeReplicaShards() error {
 				return &backoff.PermanentError{Err: err}
 			}
 
-			err = nodeToAllocate.service.AllocateShard(replica, map[string]string{})
+			err = nodeToAllocate.AllocateShard(replica, map[string]string{})
 
 			if err != nil && errors.As(err, &errs.TryAgainLater{}) {
 				return err

@@ -16,27 +16,33 @@ func NewSimpleRequestRouter(nodes []*Node) *SimpleRequestRouter {
 }
 
 func (r *SimpleRequestRouter) RouteGetRequest(ctx context.Context, shardID, key string) (string, error) {
-
 	var resultValue string
 	successful := false
 
+	var eligibleNodes []*Node
+	for _, node := range r.nodes {
+		if node.IsHealthy() {
+			eligibleNodes = append(eligibleNodes, node)
+		}
+	}
+
 	for !successful {
-		randomPosition := rand.Intn(len(r.nodes))
-		targetNode := r.nodes[randomPosition]
-		nodeResult, err := targetNode.service.GetValue(ctx, shardID, key)
+		randomPosition := rand.Intn(len(eligibleNodes))
+		targetNode := eligibleNodes[randomPosition]
+		nodeResult, err := targetNode.GetValue(ctx, shardID, key)
 		successful = err == nil
 		if !successful && errors.As(err, &errs.ValueNotFound{}) {
 			return "", err
 		} else {
 			resultValue = nodeResult
 		}
-		r.removeNodeByIndex(randomPosition)
+		removeNodeByIndex(eligibleNodes, randomPosition)
 	}
 
 	return resultValue, nil
 }
 
-func (r *SimpleRequestRouter) removeNodeByIndex(i int) {
-	r.nodes[i] = r.nodes[len(r.nodes)-1]
-	r.nodes = r.nodes[:len(r.nodes)-1]
+func removeNodeByIndex(nodes []*Node, i int) {
+	nodes[i] = nodes[len(nodes)-1]
+	nodes = nodes[:len(nodes)-1]
 }

@@ -65,7 +65,7 @@ func (c *Cluster) PutValue(ctx context.Context, key, value string) error {
 		//trigger replica creation
 	}
 
-	if err := primaryNode.service.PutValue(ctx, shardID, key, value); err != nil {
+	if err := primaryNode.PutValue(ctx, shardID, key, value); err != nil {
 		return fmt.Errorf("failed Put replicaNode, err: %w", err)
 	}
 
@@ -76,7 +76,7 @@ func (c *Cluster) PutValue(ctx context.Context, key, value string) error {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			if err := n.service.PutValue(ctx, shardID, key, value); err != nil {
+			if err := n.PutValue(ctx, shardID, key, value); err != nil {
 				errChan <- fmt.Errorf("failed Put replicaNode, err: %w", err)
 			}
 		}()

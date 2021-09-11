@@ -23,13 +23,13 @@ p# Key considerations for KV store
 
 # Simple implementation goals:
 
-- Represent nodes as go-routines
+- Represent nodes as separate in memory structs
 - Single table approach
 - In memory map used as backing store 
 - Main goroutine to act as master and track cluster state
 - Only main node to receive requests
 - Channels as node-node communication 
-- Constant number of nodes=5 and shards=2 (1 primary and 1 replica)
+- Constant number of nodes=5 and shards=10 (1- primary and 10 replicas)
 - Handle some errors 
   - Node unavailable ->
     - reroute request to replica
