@@ -17,6 +17,8 @@ bin
 *-out/
 dist
 
+server
+client
 # Test binary, built with `go test -c`
 *.test
 

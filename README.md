@@ -35,3 +35,10 @@ p# Key considerations for KV store
     - reroute request to replica
     - turn replica into primary
     - Create a new replica in another node
+  
+# How to run 
+
+1. Clone this repo
+2. Build the binaries by running: `make build`
+3. Run the server with: `./server`
+4. Run the client with: `./client localhost:1338 put norway oslo`
