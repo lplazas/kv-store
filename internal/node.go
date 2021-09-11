@@ -7,10 +7,6 @@ const (
 	NodeStateUnhealthy = 1
 )
 
-type SimpleService struct {
-	node *Node
-}
-
 type AllocatedShard struct {
 	shard   *Shard
 	storage KeyValueStorage
