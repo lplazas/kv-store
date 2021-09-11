@@ -32,7 +32,7 @@ install-proto-tools: bin/protoc  bin/protoc-gen-go bin/protoc-gen-go-grpc
 
 .PHONY: protoc-go
 PROTO_FILES=$(shell find . -path '*.proto')
-protoc-go: install-proto-tools
+protoc-go: install-proto-tools # Compile .proto files
 	$(GOBIN)/protoc \
 		-I proto \
 		-I /usr/local/include \
@@ -40,8 +40,6 @@ protoc-go: install-proto-tools
 		--go-grpc_out='module=github.com/gc-plazas/kv-store:.' \
 		$(PROTO_FILES)
 
-server: ## Run server
-	GRPC_GO_LOG_SEVERITY_LEVEL=debug GRPC_GO_LOG_VERBOSITY_LEVEL=2 go run cmd/server/server.go
-
-client: ## Run client
-	GRPC_GO_LOG_SEVERITY_LEVEL=debug GRPC_GO_LOG_VERBOSITY_LEVEL=2 go run cmd/client/client.go localhost:1338 get oslo
+build: protoc-go
+	go build -o ./server ./cmd/server/server.go
+	go build -o ./client ./cmd/client/client.go
