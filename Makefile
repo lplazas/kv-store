@@ -39,3 +39,9 @@ protoc-go: install-proto-tools
 		--go_out='module=github.com/gc-plazas/kv-store:.' \
 		--go-grpc_out='module=github.com/gc-plazas/kv-store:.' \
 		$(PROTO_FILES)
+
+server: ## Run server
+	GRPC_GO_LOG_SEVERITY_LEVEL=debug GRPC_GO_LOG_VERBOSITY_LEVEL=2 go run cmd/server/server.go
+
+client: ## Run client
+	GRPC_GO_LOG_SEVERITY_LEVEL=debug GRPC_GO_LOG_VERBOSITY_LEVEL=2 go run cmd/client/client.go localhost:1338 get oslo
