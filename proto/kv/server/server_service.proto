@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package kvstore.server.v1;
+
+option go_package = "github.com/gc-plazas/kv-store/external/server";
+
+service ServerService {
+  rpc GetValue(GetValueRequest) returns(GetValueResponse);
+}
+
+message GetValueRequest {
+  string key = 1;
+}
+
+message GetValueResponse {
+  string value = 1;
+}
