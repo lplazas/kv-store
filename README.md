@@ -39,6 +39,7 @@
 # How to run 
 
 1. Clone this repo
-2. Build the binaries by running: `make build`
-3. Run the server with: `./server`
-4. Run the client with: `./client localhost:1338 put norway oslo`
+2. Install golang: https://golang.org/doc/install
+3. Build the binaries by running: `make build`
+4. Run the server with: `./server`
+5. Run the client with: `./client localhost:1338 put norway oslo`
