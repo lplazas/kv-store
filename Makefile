@@ -7,9 +7,20 @@ OS := $(shell uname | tr '[:upper:]' '[:lower:]')
 export GOBIN := $(shell pwd)/bin
 export GOPATH := $(shell go env GOPATH)
 
+#TODO have both use same base image
+build-client:
+	docker build . -f client.Dockerfile --tag kv-store-client:latest
+
+build-server:
+	docker build . -f server.Dockerfile --tag kv-store-server:latest
+
 PROTOC_OS=$(OS)
 protoc-%-x86_64.zip:
 	curl -s -LO $(PB_REL)/download/v$(PROTOC_VERSION)/protoc-$(PROTOC_VERSION)-$(PROTOC_OS)-x86_64.zip
+	echo "-s -LO $(PB_REL)/download/v$(PROTOC_VERSION)/protoc-$(PROTOC_VERSION)-$(PROTOC_OS)-x86_64.zip"
+
+/usr/local/include/google: protoc-%-x86_64.zip
+	unzip -qo protoc-$(PROTOC_VERSION)-$(PROTOC_OS)-x86_64.zip -d /usr/local 'include/*'
 
 PROTOC_OS=$(OS)
 ifeq ($(OS),darwin)
@@ -41,5 +52,5 @@ protoc-go: install-proto-tools # Compile .proto files
 		$(PROTO_FILES)
 
 build: protoc-go
-	go build -o ./server ./cmd/server/server.go
-	go build -o ./client ./cmd/client/client.go
+	go build -o ./server ./go/cmd/server/server.go
+	go build -o ./client ./go/cmd/client/client.go

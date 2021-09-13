@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/gc-plazas/kv-store/external/server"
-	"github.com/gc-plazas/kv-store/internal"
+	server2 "github.com/gc-plazas/kv-store/go/external/server"
+	"github.com/gc-plazas/kv-store/go/internal"
 	"google.golang.org/grpc"
 	"net"
 	"os"
@@ -14,9 +14,9 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	clusterServer := server.NewClusterServer(c)
+	clusterServer := server2.NewClusterServer(c)
 	g := grpc.NewServer()
-	server.RegisterServerServiceServer(g, clusterServer)
+	server2.RegisterServerServiceServer(g, clusterServer)
 
 	address := fmt.Sprintf(":%v", OptionalEnvGet("PORT", "1338"))
 	listen, err := net.Listen("tcp", address)

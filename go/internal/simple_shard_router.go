@@ -2,7 +2,7 @@ package internal
 
 import (
 	"fmt"
-	"github.com/gc-plazas/kv-store/internal/errs"
+	"github.com/gc-plazas/kv-store/go/internal/errs"
 )
 
 type SimpleShardRouter struct{}

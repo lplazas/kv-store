@@ -3,7 +3,7 @@ package internal
 import (
 	"context"
 	"errors"
-	"github.com/gc-plazas/kv-store/internal/errs"
+	"github.com/gc-plazas/kv-store/go/internal/errs"
 	"math/rand"
 )
 

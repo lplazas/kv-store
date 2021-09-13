@@ -39,7 +39,11 @@
 # How to run 
 
 1. Clone this repo
-2. Install golang: https://golang.org/doc/install
-3. Build the binaries by running: `make build`
-4. Run the server with: `./server`
-5. Run the client with: `./client localhost:1338 put norway oslo`
+2. Install docker: https://docs.docker.com/get-docker/
+3. Build the binaries by running: `make build-server && make build-client`
+4. Run the server with: `docker run -p 1338:1338 kv-store-server:latest`
+5. Run the client with: 
+```
+docker run --network="host" kv-store-client:latest localhost:1338 put name luis
+docker run --network="host" kv-store-client:latest localhost:1338 get name
+```

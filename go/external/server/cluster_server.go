@@ -3,8 +3,8 @@ package server
 import (
 	"context"
 	"errors"
-	"github.com/gc-plazas/kv-store/internal"
-	"github.com/gc-plazas/kv-store/internal/errs"
+	"github.com/gc-plazas/kv-store/go/internal"
+	"github.com/gc-plazas/kv-store/go/internal/errs"
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
 )

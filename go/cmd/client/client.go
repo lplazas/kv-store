@@ -5,7 +5,7 @@ import (
 	"crypto/tls"
 	"crypto/x509"
 	"fmt"
-	"github.com/gc-plazas/kv-store/external/server"
+	server2 "github.com/gc-plazas/kv-store/go/external/server"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials"
 	"net/url"
@@ -51,11 +51,11 @@ func main() {
 
 	ctx := context.Background()
 
-	serverClient := server.NewServerServiceClient(conn)
+	serverClient := server2.NewServerServiceClient(conn)
 
 	if command == getCommand {
 		getKey := args[2]
-		response, getErr := serverClient.GetValue(ctx, &server.GetValueRequest{Key: getKey})
+		response, getErr := serverClient.GetValue(ctx, &server2.GetValueRequest{Key: getKey})
 		if getErr != nil {
 			fmt.Println("error: ", getErr.Error())
 		} else {
@@ -64,7 +64,7 @@ func main() {
 	} else if command == putCommand {
 		putKey := args[2]
 		putValue := args[3]
-		_, putErr := serverClient.PutValue(ctx, &server.PutValueRequest{
+		_, putErr := serverClient.PutValue(ctx, &server2.PutValueRequest{
 			Key:   putKey,
 			Value: putValue,
 		})

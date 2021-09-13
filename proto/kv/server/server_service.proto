@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package kvstore.server.v1;
 
-option go_package = "github.com/gc-plazas/kv-store/external/server";
+option go_package = "github.com/gc-plazas/kv-store/go/external/server";
 
 service ServerService {
   rpc GetValue(GetValueRequest) returns(GetValueResponse);

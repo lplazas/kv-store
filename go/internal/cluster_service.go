@@ -3,7 +3,7 @@ package internal
 import (
 	"context"
 	"fmt"
-	"github.com/gc-plazas/kv-store/internal/errs"
+	errs2 "github.com/gc-plazas/kv-store/go/internal/errs"
 	"github.com/hashicorp/go-multierror"
 	"strconv"
 	"sync"
@@ -16,7 +16,7 @@ type RequestRouter interface {
 func (c *Cluster) GetValue(ctx context.Context, key string) (string, error) {
 	shardNum, err := c.docRouter.GetShardNumber(key, c.primaryShardCount)
 	if err != nil {
-		return "", errs.FatalError("could not generate target shard id", err)
+		return "", errs2.FatalError("could not generate target shard id", err)
 	}
 	shardID := strconv.Itoa(shardNum)
 
@@ -24,7 +24,7 @@ func (c *Cluster) GetValue(ctx context.Context, key string) (string, error) {
 
 	if len(nodesWithShard) == 0 {
 		// trigger cluster health check
-		return "", errs.TryAgainLaterError("data not available, try again later")
+		return "", errs2.TryAgainLaterError("data not available, try again later")
 	}
 
 	value, err := NewSimpleRequestRouter(nodesWithShard).RouteGetRequest(ctx, shardID, key)
@@ -39,7 +39,7 @@ func (c *Cluster) GetValue(ctx context.Context, key string) (string, error) {
 func (c *Cluster) PutValue(ctx context.Context, key, value string) error {
 	shardNum, err := c.docRouter.GetShardNumber(key, c.primaryShardCount)
 	if err != nil {
-		return errs.FatalError("could not generate shard number", err)
+		return errs2.FatalError("could not generate shard number", err)
 	}
 	shardID := strconv.Itoa(shardNum)
 
@@ -58,7 +58,7 @@ func (c *Cluster) PutValue(ctx context.Context, key, value string) error {
 	if primaryNode == nil {
 		//trigger replica promotion
 		//comeback later (?) wait for replica promotion?
-		return errs.FatalError("primary replica for value not found", nil)
+		return errs2.FatalError("primary replica for value not found", nil)
 	}
 
 	if len(replicaNodes) == 0 {

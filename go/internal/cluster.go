@@ -4,7 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/cenkalti/backoff"
-	"github.com/gc-plazas/kv-store/internal/errs"
+	"github.com/gc-plazas/kv-store/go/internal/errs"
 	"strconv"
 )
 

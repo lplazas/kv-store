@@ -2,8 +2,8 @@ package internal
 
 import (
 	"context"
-	"github.com/gc-plazas/kv-store/internal/errs"
-	"github.com/gc-plazas/kv-store/internal/inmem"
+	errs2 "github.com/gc-plazas/kv-store/go/internal/errs"
+	"github.com/gc-plazas/kv-store/go/internal/inmem"
 )
 
 type NodeService interface {
@@ -20,7 +20,7 @@ func (n *Node) GetValue(_ context.Context, shardID, key string) (string, error) 
 	targetShard := n.findAllocatedShard(shardID)
 
 	if targetShard == nil {
-		return "", errs.NodeNotAvailable{}
+		return "", errs2.NodeNotAvailable{}
 	}
 
 	value, err := targetShard.storage.Get(key)
@@ -35,7 +35,7 @@ func (n *Node) PutValue(_ context.Context, shardID, key, value string) error {
 	targetShard := n.findAllocatedShard(shardID)
 
 	if targetShard == nil {
-		return errs.NodeNotAvailable{}
+		return errs2.NodeNotAvailable{}
 	}
 
 	if err := targetShard.storage.Put(key, value); err != nil {
@@ -73,7 +73,7 @@ func (n *Node) AllocateShard(shard *Shard, values map[string]string) error {
 
 	for k, v := range values {
 		if err := allocatedShard.storage.Put(k, v); err != nil {
-			return errs.TryAgainLaterError("failed allocating shard")
+			return errs2.TryAgainLaterError("failed allocating shard")
 		}
 	}
 
