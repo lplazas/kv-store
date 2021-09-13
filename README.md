@@ -1,4 +1,4 @@
-p# Key considerations for KV store
+# Key considerations for KV store
 
 ## HA - Scalability
 - Sharding -> without knowledge of the kind of key it is better to shard by hash of key -> consistent hashing
@@ -21,7 +21,7 @@ p# Key considerations for KV store
 - Transactions ?
 - Entry versioning ?
 
-# Simple implementation goals:
+# Goals for this simple implementation :
 
 - Represent nodes as separate in memory structs
 - Single table approach
